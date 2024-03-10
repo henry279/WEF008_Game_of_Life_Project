@@ -15,6 +15,11 @@ let survivalRulesLarge = [3];
 // Default reproduction rules: a dead cell becomes alive if it has 3 neighbors
 let reproductionRules = [3]; 
 
+let select = document.querySelector('#cell-color');
+let selectedColor;
+
+let selectstable = document.querySelector('#stable-color');
+
 function setup() {
   /* Set the canvas to be under the element #canvas*/
   const canvas = createCanvas(windowWidth*0.8, windowHeight - 100);
@@ -67,20 +72,85 @@ function draw() {
   generate();
   for (let i = 0; i < columns; i++) {
     for (let j = 0; j < rows; j++) {
-      if (isStable(i, j)) {
-        fill(stableColor[0], stableColor[1], stableColor[2]);
-      } else if(currentBoard[i][j] == 1) {
-        fill(boxColor[0], boxColor[1], boxColor[2]);
-      } else {
-        fill(255);
-      }
 
+      // if select "ByNoOfNeiB"
+      if (select.value == "ByNoOfNeiB"){
+        if (isStable(i, j)) {
+          if (selectstable.value == "On"){
+            stableColor = [0, 30, 0];
+            fill(stableColor[0], stableColor[1], stableColor[2]);
+          } else if (selectstable.value == "Off"){
+            let count = countLiveNeighbors(i,j);
+            if (count == 1) {
+              fill(255,0,0);            // red
+            } else if (count == 2) {
+              fill(255,125,0);          // orange
+            } else if (count == 3) {
+              fill(255,255,0);          // yellow
+            } else if (count == 4) {
+              fill(0,255,0);            // green
+            } else if (count == 5) {
+              fill(0,0,255);            // blue
+            } else if (count == 6) {
+              fill(0,255,255);          // light blue
+            } else if (count == 7) {
+              fill(255,0,255);          // pink
+            } else if (count == 8) {
+              fill(100,100,100);        // purple
+            } else if (count == 9) {
+              fill(200,200,200);        // light purple
+            }
+          }
+        } else if(currentBoard[i][j] == 1) {
+            let count = countLiveNeighbors(i,j);
+            if (count == 1) {
+              fill(255,0,0);            // red
+            } else if (count == 2) {
+              fill(255,125,0);          // orange
+            } else if (count == 3) {
+              fill(255,255,0);          // yellow
+            } else if (count == 4) {
+              fill(0,255,0);            // green
+            } else if (count == 5) {
+              fill(0,0,255);            // blue
+            } else if (count == 6) {
+              fill(0,255,255);          // light blue
+            } else if (count == 7) {
+              fill(255,0,255);          // pink
+            } else if (count == 8) {
+              fill(100,100,100);        // purple
+            } else if (count == 9) {
+              fill(200,200,200);        // light purple
+            }
+        } else {
+            fill(255)
+        }
+        
+        // if not select "ByNoOfNeiB"
+      } else if (select.value != "ByNoOfNeiB"){
+        selectedColor = select.value.split(',').map(Number);
+        boxColor = selectedColor;
+        if (isStable(i, j)) {
+          if (selectstable.value == "On"){
+            stableColor = [0, 30, 0];
+            fill(stableColor[0], stableColor[1], stableColor[2]);
+          } else if (selectstable.value == "Off"){
+            stableColor = boxColor
+            fill(stableColor[0], stableColor[1], stableColor[2]);
+          }
+        } else if(currentBoard[i][j] == 1) {
+          fill(boxColor[0], boxColor[1], boxColor[2]);
+        } else {
+          fill(255);
+        }
+      }
 
       stroke(strokeColor[0], strokeColor[1], strokeColor[2]);
       rect(i * unitLength, j * unitLength, unitLength, unitLength);
     }
   }
 }
+
 
 function generate() {
   //Loop over every single box on the board
@@ -169,6 +239,8 @@ function countLiveNeighbors(x, y) {
   return count;
 }
 
+
+
 function handleSliderChange() {
   frameRateValue = Number(document.querySelector('#framerate-bar').value);
   document.querySelector('#framerate-value').textContent = frameRateValue;
@@ -176,36 +248,13 @@ function handleSliderChange() {
   unitLength = Number(document.querySelector('#unit-length-bar').value);
   document.querySelector('#unit-length-value').textContent = unitLength;
 
-  // Get the selected color from the dropdown menu
-  let select = document.querySelector('#cell-color');
-  let selectedColor;
-
-  if (select.value == "ByNoOfNeiB"){
-    selectedColor = [100,250,150]
-  } else {
-    selectedColor = select.value.split(',').map(Number);
-  }
-
-  // Update the boxColor variable
-  boxColor = selectedColor;
-
-
-  // Control on and off for stable-color
-  let selectstable = document.querySelector('#stable-color');
-
-  if (selectstable.value == "On"){
-    stableColor = [0, 30, 0];
-  } else if (selectstable.value == "Off"){
-    stableColor = boxColor
-  }
-
 
   // Get the selected color from the dropdown menu
   let selectstroke = document.querySelector('#stroke-color');
   let selectedStrokeColor = selectstroke.value.split(',').map(Number);
 
-  // Update the boxColor variable
- strokeColor = selectedStrokeColor;
+  // Update the strokecolor variable
+  strokeColor = selectedStrokeColor;
 
   init();
 }
@@ -259,10 +308,10 @@ function updateRules() {
 
 
 document.querySelector('#reset-game').addEventListener('click', resetGame);
-document.querySelector('#framerate-bar').addEventListener('input', handleSliderChange);
-document.querySelector('#unit-length-bar').addEventListener('input', handleSliderChange);
 document.querySelector('#stop-button').addEventListener('click', stopGame);
 document.querySelector('#continue-button').addEventListener('click', continueGame);
+document.querySelector('#framerate-bar').addEventListener('input', handleSliderChange);
+document.querySelector('#unit-length-bar').addEventListener('input', handleSliderChange);
 document.querySelector('#cell-color').addEventListener('change', handleSliderChange);
 document.querySelector('#stroke-color').addEventListener('change', handleSliderChange);
 document.querySelector('#stable-color').addEventListener('change', handleSliderChange);
