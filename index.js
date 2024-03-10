@@ -74,6 +74,8 @@ function draw() {
       } else {
         fill(255);
       }
+
+
       stroke(strokeColor[0], strokeColor[1], strokeColor[2]);
       rect(i * unitLength, j * unitLength, unitLength, unitLength);
     }
@@ -143,6 +145,30 @@ function resetGame() {
   init();
 }
 
+function countLiveNeighbors(x, y) {
+  let count = 0;
+
+  // Check the eight neighboring cells
+  for (let i = -1; i <= 1; i++) {
+    for (let j = -1; j <= 1; j++) {
+      // Skip the current cell
+      if (i === 0 && j === 0) {
+        continue;
+      }
+
+      const neighborX = x + i;
+      const neighborY = y + j;
+
+      // Check if the neighboring cell is within the game board boundaries
+      if (neighborX >= 0 && neighborX < columns && neighborY >= 0 && neighborY < rows) {
+        count += currentBoard[neighborX][neighborY];
+      }
+    }
+  }
+
+  return count;
+}
+
 function handleSliderChange() {
   frameRateValue = Number(document.querySelector('#framerate-bar').value);
   document.querySelector('#framerate-value').textContent = frameRateValue;
@@ -152,10 +178,27 @@ function handleSliderChange() {
 
   // Get the selected color from the dropdown menu
   let select = document.querySelector('#cell-color');
-  let selectedColor = select.value.split(',').map(Number);
+  let selectedColor;
+
+  if (select.value == "ByNoOfNeiB"){
+    selectedColor = [100,250,150]
+  } else {
+    selectedColor = select.value.split(',').map(Number);
+  }
 
   // Update the boxColor variable
   boxColor = selectedColor;
+
+
+  // Control on and off for stable-color
+  let selectstable = document.querySelector('#stable-color');
+
+  if (selectstable.value == "On"){
+    stableColor = [0, 30, 0];
+  } else if (selectstable.value == "Off"){
+    stableColor = boxColor
+  }
+
 
   // Get the selected color from the dropdown menu
   let selectstroke = document.querySelector('#stroke-color');
@@ -166,6 +209,8 @@ function handleSliderChange() {
 
   init();
 }
+
+
 
 
 /**
@@ -220,6 +265,7 @@ document.querySelector('#stop-button').addEventListener('click', stopGame);
 document.querySelector('#continue-button').addEventListener('click', continueGame);
 document.querySelector('#cell-color').addEventListener('change', handleSliderChange);
 document.querySelector('#stroke-color').addEventListener('change', handleSliderChange);
+document.querySelector('#stable-color').addEventListener('change', handleSliderChange);
 
 function stopGame() {
   noLoop();
