@@ -1,0 +1,37 @@
+.Heading {
+    background-color: black;
+    color: white;
+    height: 50px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+
+
+#canvas {
+ float: left;
+ width: 80%;
+ padding: 10px 10px 10px 10px;
+}
+
+#sliders-container {
+ float: right;
+ width: 20%;
+ padding: 10px 10px 10px 20px;
+}
+
+
+
+#reset-game {
+display: block;
+margin-top: 10px;
+}
+
+#speed-bar,
+#element-number-bar {
+margin-left: 10px;
+}
+
+
+
+

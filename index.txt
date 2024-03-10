@@ -1,0 +1,124 @@
+- boxColor 改格仔顏色
+- strokeColor 改線顏色
+- Columns 計打橫行
+- rows 計打直行
+
+
+
+
+- frameRateValue 初始速度
+- unitLength 每格間距
+- initial_unitLength 初始間距
+
+######function--setup()#######
+- called once at the beginning
+- sets up the canvas (by p5*js) and 
+  calculates the number of 
+  columns and rows based on the 
+  width and height of the canvas.
+
+
+
+- currentBoard vs nextBoard
+- 整兩個BOX 裝好D Array
+
+
+
+
+
+
+
+
+
+
+
+
+######function--init()#######
+- 初始 init
+
+
+- currentBoard = random (Array)
+- nextBoard = 0 (Array)
+
+
+
+更改frameRateValue
+
+
+
+######function--draw()#######
+- 每一個格色顏色
+
+
+
+- 如果格仔 array == 1, 
+- 格仔顏色 ＝ boxColor
+- 如果格仔 array != 1,
+- 格仔顏色 ＝ 255 即白色
+
+- 線顏色
+- rect() 畫哂成個格仔圖
+- rect(i數量*格仔長, j數量*格仔長,
+       格仔高, 格仔橫)
+
+       
+######function--generate()#######
+- responsible for calculating the next state of each box
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- rule 1
+- 如果 1 ＋ neighbors < 2
+- 變 0
+
+- rule 2
+- 如果 1 ＋ neighbors > 3
+- 變 0
+
+- rule 3
+- 如果 0 ＋ neighbors ＝＝ 3
+- 變 1
+
+- rule 4
+- 其他
+- 不變
+
+
+由 currentBoard store to nextBoard
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
