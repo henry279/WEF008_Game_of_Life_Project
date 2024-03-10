@@ -5,9 +5,14 @@ let rows;    /* To be determined by window height */
 let currentBoard;
 let nextBoard;
 
-
 let frameRateValue = 15;
 let unitLength  = 10;
+
+// Default survival rules: a cell survives if it has 2 or 3 neighbors
+let survivalRulesLess = [2]; 
+let survivalRulesLarge = [3]; 
+// Default reproduction rules: a dead cell becomes alive if it has 3 neighbors
+let reproductionRules = [3]; 
 
 function setup() {
   /* Set the canvas to be under the element #canvas*/
@@ -25,7 +30,18 @@ function setup() {
     currentBoard[i] = [];
     nextBoard[i] = [];
   }
-  // Now both currentBoard and nextBoard are array of array of undefined values.
+
+  let survivalruleslessthanInput = document.querySelector('#survival-rules-lessthan');
+  survivalruleslessthanInput.addEventListener('input', updateRules);
+
+  let survivalruleslargethanInput = document.querySelector('#survival-rules-largethan');
+  survivalruleslargethanInput.addEventListener('input', updateRules);
+
+  let reproductionRulesInput = document.querySelector('#reproduction-rules');
+  reproductionRulesInput.addEventListener('input', updateRules);
+
+  updateRules();
+
   init(); // Set the initial values of the currentBoard and nextBoard
 }
 
@@ -77,15 +93,16 @@ function generate() {
           neighbors += currentBoard[(x + i + columns) % columns][(y + j + rows) % rows];
         }
       }
+      
 
       // Rules of Life
-      if (currentBoard[x][y] == 1 && neighbors < 2) {
+      if (currentBoard[x][y] == 1 && neighbors < survivalRulesLess) {
         // Die of Loneliness
         nextBoard[x][y] = 0;
-      } else if (currentBoard[x][y] == 1 && neighbors > 4) {
+      } else if (currentBoard[x][y] == 1 && neighbors > survivalRulesLarge) {
         // Die of Overpopulation
         nextBoard[x][y] = 0;
-      } else if (currentBoard[x][y] == 0 && neighbors == 3) {
+      } else if (currentBoard[x][y] == 0 && reproductionRules.includes(neighbors)) {
         // New life due to Reproduction
         nextBoard[x][y] = 1;
       } else {
@@ -158,9 +175,28 @@ function mouseReleased() {
     loop();
 }
 
+function updateRules() {
+  let survivalruleslessthanInput = document.querySelector('#survival-rules-lessthan').value;
+  survivalRulesLess = survivalruleslessthanInput.split(',').map(rule => parseInt(rule.trim()));
 
+  let survivalruleslargethanInput = document.querySelector('#survival-rules-largethan').value;
+  survivalRulesLarge = survivalruleslargethanInput.split(',').map(rule => parseInt(rule.trim()));
+
+  let reproductionRulesInput = document.querySelector('#reproduction-rules').value;
+  reproductionRules = reproductionRulesInput.split(',').map(rule => parseInt(rule.trim()));
+}
 
 
 document.querySelector('#reset-game').addEventListener('click', resetGame);
 document.querySelector('#framerate-bar').addEventListener('input', handleSliderChange);
 document.querySelector('#unit-length-bar').addEventListener('input', handleSliderChange);
+document.querySelector('#stop-button').addEventListener('click', stopGame);
+document.querySelector('#continue-button').addEventListener('click', continueGame);
+
+function stopGame() {
+  noLoop();
+}
+
+function continueGame() {
+  loop();
+}

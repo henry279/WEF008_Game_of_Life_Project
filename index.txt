@@ -5,10 +5,12 @@
 
 
 
-
 - frameRateValue 初始速度
 - unitLength 每格間距
 - initial_unitLength 初始間距
+
+
+
 
 ######function--setup()#######
 - called once at the beginning

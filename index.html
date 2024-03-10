@@ -15,22 +15,45 @@
 
         <div id="sliders-container">
 
+
             <div>
-            <button id="reset-game">Reset</button>
+                <button id="reset-game">Reset</button>
             </div>
 
             <div>
-            <label for="framerate-bar">Frame Rate:</label>
-            <input type="range" id="framerate-bar" min="1" max="20" step="1" value="15">
-            <span id="framerate-value">15</span>
+                <button id="stop-button">Stop</button>
             </div>
 
             <div>
-            <label for="unit-length-bar">Unit length:</label>
-            <input type="range" id="unit-length-bar" min="1" max="50" step="1" value="10">
-            <span id="unit-length-value">10</span>
+                <button id="continue-button">Continue</button>
             </div>
 
+            <div>
+                <label for="framerate-bar">Frame Rate:</label>
+                <input type="range" id="framerate-bar" min="1" max="20" step="1" value="15">
+                <span id="framerate-value">15</span>
+            </div>
+
+            <div>
+                <label for="unit-length-bar">Unit length:</label>
+                <input type="range" id="unit-length-bar" min="1" max="50" step="1" value="10">
+                <span id="unit-length-value">10</span>
+            </div>
+
+            <div>
+                <label for="survival-rules-lessthan">Survival Rules (lessthan<):</label>
+                <input type="text" id="survival-rules-lessthan" value="2" />
+            </div>
+
+            <div>
+                <label for="survival-rules-largethan">Survival Rules (largethan>):</label>
+                <input type="text" id="survival-rules-largethan" value="3" />
+            </div>
+
+            <div>
+                <label for="reproduction-rules">Reproduction Rules:</label>
+                <input type="text" id="reproduction-rules" value="3" />
+            </div>
 
         </div>
 
