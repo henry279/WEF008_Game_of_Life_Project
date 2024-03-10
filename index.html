@@ -15,16 +15,19 @@
 
         <div id="sliders-container">
 
-            <div>
-                <label for="state-color">Select Color:</label>
-                <select id="state-color">
-                  <option value="0">Red</option>
-                  <option value="1">Blue</option>
-                  <option value="2">Green</option>
-                  <option value="3">Yellow</option>
-                  <!-- Add more options for additional colors as needed -->
-                </select>
-            </div>
+            <div>Cell-color:</div>
+            <select id="cell-color">
+                <option value="100, 200, 100">Green</option>
+                <option value="200, 100, 100">Red</option>
+                <option value="100, 100, 200">Blue</option>
+            </select>
+    
+            <div>Stroke-color:</div>
+            <select id="stroke-color">
+                <option value="100, 200, 100">Green</option>
+                <option value="200, 100, 100">Red</option>
+                <option value="100, 100, 200">Blue</option>
+            </select>
 
             <div>
                 <button id="reset-game">Reset</button>
@@ -40,8 +43,8 @@
 
             <div>
                 <label for="framerate-bar">Frame Rate:</label>
-                <input type="range" id="framerate-bar" min="1" max="20" step="1" value="15">
-                <span id="framerate-value">15</span>
+                <input type="range" id="framerate-bar" min="1" max="20" step="1" value="5">
+                <span id="framerate-value">5</span>
             </div>
 
             <div>

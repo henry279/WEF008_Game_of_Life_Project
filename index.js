@@ -1,11 +1,12 @@
-const boxColor    = [100, 200, 100];
-const strokeColor = [50, 200, 50];
+let boxColor    = [100, 200, 100];
+let strokeColor = [50, 200, 50];
+let stableColor = [0, 30, 0]; // Darker color for stable cells
 let columns; /* To be determined by window width */
 let rows;    /* To be determined by window height */
 let currentBoard;
 let nextBoard;
 
-let frameRateValue = 15;
+let frameRateValue = 5;
 let unitLength  = 10;
 
 // Default survival rules: a cell survives if it has 2 or 3 neighbors
@@ -66,12 +67,14 @@ function draw() {
   generate();
   for (let i = 0; i < columns; i++) {
     for (let j = 0; j < rows; j++) {
-      if (currentBoard[i][j] == 1) {
-        fill(boxColor);
+      if (isStable(i, j)) {
+        fill(stableColor[0], stableColor[1], stableColor[2]);
+      } else if(currentBoard[i][j] == 1) {
+        fill(boxColor[0], boxColor[1], boxColor[2]);
       } else {
         fill(255);
       }
-      stroke(strokeColor);
+      stroke(strokeColor[0], strokeColor[1], strokeColor[2]);
       rect(i * unitLength, j * unitLength, unitLength, unitLength);
     }
   }
@@ -118,7 +121,16 @@ function generate() {
   nextBoard = temp;
 }
 
+function isStable(x, y) {
+  // Check if the cell at (x, y) is stable
+  const currentValue = currentBoard[x][y];
 
+  if (currentBoard[x][y] == 1 && currentBoard[x][y] == nextBoard[x][y]) {
+    return true;
+  } else {
+    return false
+  }
+}
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight - 100);
@@ -137,6 +149,20 @@ function handleSliderChange() {
 
   unitLength = Number(document.querySelector('#unit-length-bar').value);
   document.querySelector('#unit-length-value').textContent = unitLength;
+
+  // Get the selected color from the dropdown menu
+  let select = document.querySelector('#cell-color');
+  let selectedColor = select.value.split(',').map(Number);
+
+  // Update the boxColor variable
+  boxColor = selectedColor;
+
+  // Get the selected color from the dropdown menu
+  let selectstroke = document.querySelector('#stroke-color');
+  let selectedStrokeColor = selectstroke.value.split(',').map(Number);
+
+  // Update the boxColor variable
+ strokeColor = selectedStrokeColor;
 
   init();
 }
@@ -192,6 +218,8 @@ document.querySelector('#framerate-bar').addEventListener('input', handleSliderC
 document.querySelector('#unit-length-bar').addEventListener('input', handleSliderChange);
 document.querySelector('#stop-button').addEventListener('click', stopGame);
 document.querySelector('#continue-button').addEventListener('click', continueGame);
+document.querySelector('#cell-color').addEventListener('change', handleSliderChange);
+document.querySelector('#stroke-color').addEventListener('change', handleSliderChange);
 
 function stopGame() {
   noLoop();
